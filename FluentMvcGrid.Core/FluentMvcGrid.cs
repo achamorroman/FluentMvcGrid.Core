@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text.Encodings.Web;
 using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace FluentMvcGrid.Core
 {
-    public class FluentMvcGrid<T> : IHtmlContent //IHtmlString 
+    public class FluentMvcGrid<T> : IHtmlContent 
     {
         private readonly List<Tuple<string, Func<dynamic, object>>> _attributes;
         private readonly List<FluentMvcGridColumn<T>> _columns;
@@ -383,6 +385,11 @@ namespace FluentMvcGrid.Core
                 table.AddCssClass("table");
             }
             table.Attributes.Add("data-current-url", GetCurrentUrl(_url));
+        }
+
+        public void WriteTo(TextWriter writer, HtmlEncoder encoder)
+        {
+            throw new NotImplementedException();
         }
     }
 }
