@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace FluentMvcGrid.Core
 {
@@ -17,7 +18,7 @@ namespace FluentMvcGrid.Core
         {
             if (currentUrl == null)
             {
-                currentUrl = HttpContext.Current.Request.Url;
+                throw new ArgumentNullException("currentUrl");
             }
 
             var pageCount = CalculatePageCount(pageSize, totalCount);
@@ -143,7 +144,7 @@ namespace FluentMvcGrid.Core
         {
             if (currentUrl == null)
             {
-                currentUrl = HttpContext.Current.Request.Url;
+                throw new ArgumentNullException("currentUrl");
             }
 
             var pageCount = CalculatePageCount(pageSize, totalCount);
@@ -259,7 +260,7 @@ namespace FluentMvcGrid.Core
         {
             var a = new TagBuilder("a");
             a.InnerHtml.AppendHtml(text);
-            
+
             if (!string.IsNullOrWhiteSpace(url))
             {
                 a.Attributes.Add("href", string.IsNullOrWhiteSpace(onClick) ? url : "#");
@@ -273,7 +274,7 @@ namespace FluentMvcGrid.Core
                     else
                     {
                         javascript = string.Format("javascript:{0}({1});return false;", onClick, page);
-                    }                    
+                    }
                     a.Attributes.Add("onclick", javascript);
                 }
             }

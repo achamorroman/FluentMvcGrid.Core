@@ -4,12 +4,11 @@ using System.IO;
 using System.Linq;
 using System.Text.Encodings.Web;
 using Microsoft.AspNetCore.Html;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace FluentMvcGrid.Core
 {
-    public class FluentMvcGrid<T> : IHtmlContent 
+    public class FluentMvcGrid<T> : IHtmlContent
     {
         private readonly List<Tuple<string, Func<dynamic, object>>> _attributes;
         private readonly List<FluentMvcGridColumn<T>> _columns;
@@ -26,7 +25,7 @@ namespace FluentMvcGrid.Core
         private bool _showHeadersIfEof;
         private Uri _url;
 
-        public FluentMvcGrid(IEnumerable<T> items)
+        public FluentMvcGrid(IEnumerable<T> items, Uri requestUrl)
         {
             _attributes = new List<Tuple<string, Func<dynamic, object>>>();
             _columns = new List<FluentMvcGridColumn<T>>();
@@ -34,7 +33,7 @@ namespace FluentMvcGrid.Core
             _footerColumns = new List<FluentMvcGridFooterColumn>();
             _items = items;
             _pagination = new FluentMvcGridPagination();
-            _url = HttpContext.Current.Request.Url;
+            _url = requestUrl;
         }
 
         private bool NothingToShow
