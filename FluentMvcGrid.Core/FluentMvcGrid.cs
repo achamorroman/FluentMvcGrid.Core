@@ -41,16 +41,6 @@ namespace FluentMvcGrid.Core
             get { return !_items.Any() && !_showHeadersIfEof; }
         }
 
-        #region IHtmlString members
-
-        public string ToHtmlString()
-        {
-            // @
-            return Build();
-        }
-
-        #endregion
-
         public FluentMvcGrid<T> AddAttribute(string key, Func<dynamic, object> expression)
         {
             _attributes.Add(new Tuple<string, Func<dynamic, object>>(key, expression));
@@ -224,7 +214,13 @@ namespace FluentMvcGrid.Core
                 return returnValue;
             }
 
-            return table.ToString();
+            using (var writer = new StringWriter())
+            {
+                table.WriteTo(writer, System.Text.Encodings.Web.HtmlEncoder.Default);
+                return writer.ToString();
+            }
+
+            // return table.ToString();
         }
 
         private string GetCurrentUrl(Uri url)
@@ -259,11 +255,11 @@ namespace FluentMvcGrid.Core
                 var tbody = new TagBuilder("tbody");
                 var tr = new TagBuilder("tr");
                 var td = new TagBuilder("td");
+
                 td.Attributes.Add("colspan", _columns.Count.ToString());
                 td.InnerHtml.AppendHtml(eof);
                 tr.InnerHtml.AppendHtml(td.ToString());
                 tbody.InnerHtml.AppendHtml(tr.ToString());
-                // TODO testear que es correcto
                 table.InnerHtml.AppendHtml(tbody.ToString());
             }
         }
@@ -388,7 +384,8 @@ namespace FluentMvcGrid.Core
 
         public void WriteTo(TextWriter writer, HtmlEncoder encoder)
         {
-            throw new NotImplementedException();
+            // TODO. y aqui ¿qué?
+            Build();
         }
     }
 }
