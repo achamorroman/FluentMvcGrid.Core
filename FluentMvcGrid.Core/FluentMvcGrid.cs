@@ -36,10 +36,7 @@ namespace FluentMvcGrid.Core
             _url = requestUrl;
         }
 
-        private bool NothingToShow
-        {
-            get { return !_items.Any() && !_showHeadersIfEof; }
-        }
+        private bool NothingToShow => !_items.Any() && !_showHeadersIfEof;
 
         public FluentMvcGrid<T> AddAttribute(string key, Func<dynamic, object> expression)
         {
@@ -178,7 +175,8 @@ namespace FluentMvcGrid.Core
 
             if (NothingToShow)
             {
-                return table.InnerHtml.SetHtmlContent(Utilities.EvalExpression(_eof, null));
+                var expression = Utilities.EvalExpression(_eof, null);
+                return table.InnerHtml.SetHtmlContent(expression);
             }
 
             SetRequiredAttributes(table);
@@ -355,8 +353,8 @@ namespace FluentMvcGrid.Core
                 var td = new TagBuilder("td");
                 td.Attributes.Add("colspan", _columns.Count.ToString());
 
-                var paginationString = _pagination.Build(_configuration, _url);
-                td.InnerHtml.AppendHtml(paginationString);
+                var paginationContent = _pagination.Build(_configuration, _url);
+                td.InnerHtml.AppendHtml(paginationContent);
 
                 if (td.HasInnerHtml)
                 {
@@ -390,6 +388,7 @@ namespace FluentMvcGrid.Core
         public void WriteTo(TextWriter writer, HtmlEncoder encoder)
         {
             // ¿?
+            Build();
         }
     }
 }

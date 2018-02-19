@@ -11,11 +11,7 @@ namespace FluentMvcGrid.Core
     {
         internal static T EvalExpression<T>(Func<T> expression)
         {
-            if (expression == null)
-            {
-                return default(T);
-            }
-            return expression();
+            return expression == null ? default(T) : expression();
         }
 
         internal static string EvalExpression<T>(Func<T, object> expression, T item)
@@ -30,6 +26,7 @@ namespace FluentMvcGrid.Core
             {
                 return string.Empty;
             }
+
             return value.ToString();
         }
 
@@ -72,6 +69,7 @@ namespace FluentMvcGrid.Core
                 var key = attribute.Item1;
                 var expression = attribute.Item2;
                 var value = EvalExpression(expression, null);
+
                 if (!string.IsNullOrWhiteSpace(value))
                 {
                     tag.MergeAttribute(key, value, true);
@@ -90,6 +88,7 @@ namespace FluentMvcGrid.Core
             {
                 return url;
             }
+
             if (url.IndexOf("?") == -1)
             {
                 url += "?";

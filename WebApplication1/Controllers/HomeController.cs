@@ -40,6 +40,9 @@ namespace WebApplication1.Controllers
         public ActionResult Index(int page = 1, string sort = "FirstName", string sortDir = "ASC")
         {
             var persons = ReadJsonDb();
+
+            //var persons = Enumerable.Empty<Person>();
+
             switch (sort)
             {
                 case "FirstName":

@@ -103,11 +103,13 @@ namespace FluentMvcGrid.Core
                 td.AddCssClass(@class);
             }
             td.Attributes.Add("data-role", "column");
+
             var name = !string.IsNullOrWhiteSpace(_name) ? _name : _sortBy;
             if (!string.IsNullOrWhiteSpace(name))
             {
                 td.Attributes.Add("data-column-name", name);
             }
+
             foreach (var attribute in _attributes)
             {
                 var key = attribute.Item1;
@@ -118,6 +120,7 @@ namespace FluentMvcGrid.Core
                     td.MergeAttribute(key, value, true);
                 }
             }
+
             if (visibility == ColumnVisibility.Hidden)
             {
                 td.Attributes.Add("style", "display: none;");
