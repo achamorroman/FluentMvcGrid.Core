@@ -22,7 +22,7 @@ namespace FluentMvcGrid.Core
             return summary;
         }
 
-        public static HtmlString GetDefaultPagination(
+        public static IHtmlContent GetDefaultPagination(
             this HtmlHelper htmlHelper,
             int pageIndex,
             int totalCount,
@@ -42,7 +42,7 @@ namespace FluentMvcGrid.Core
             return Pagination.GetDefaultPagination(pageIndex, totalCount, pageSize, paginationSizing, paginationAligment, numericLinksCount, paginationInfo, htmlAttributes, bootstrapVersion, onClick, href, currentUrl, removedParameters, addedParameters);
         }
 
-        public static HtmlString GetPagerPagination(
+        public static IHtmlContent GetPagerPagination(
             this HtmlHelper htmlHelper,
             int pageIndex,
             int totalCount,

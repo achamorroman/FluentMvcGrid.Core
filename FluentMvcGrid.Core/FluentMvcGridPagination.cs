@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Html;
 
 namespace FluentMvcGrid.Core
 {
@@ -109,9 +110,11 @@ namespace FluentMvcGrid.Core
             return this;
         }
 
-        internal string Build(Configuration configuration, Uri url)
+        internal IHtmlContent Build(Configuration configuration, Uri url)
         {
-            return Pagination.GetDefaultPagination(_pageIndex, _totalCount, _pageSize, _paginationSizing, _paginationAligment, _numericLinksCount, _paginationInfo, _attributes, configuration.GetBootstrapVersion(), _onPaginate, _href, url, _removedParameters, _addedParameters).ToString();
+            return Pagination.GetDefaultPagination(_pageIndex, _totalCount, _pageSize, _paginationSizing,
+                _paginationAligment, _numericLinksCount, _paginationInfo, _attributes,
+                configuration.GetBootstrapVersion(), _onPaginate, _href, url, _removedParameters, _addedParameters);
         }
 
         internal bool GetEnabled()

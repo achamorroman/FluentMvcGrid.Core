@@ -81,11 +81,7 @@ namespace FluentMvcGrid.Core
 
         private static string GetTextOrDefault(string value, string defaultValue)
         {
-            if (!string.IsNullOrEmpty(value))
-            {
-                return value;
-            }
-            return defaultValue;
+            return !string.IsNullOrEmpty(value) ? value : defaultValue;
         }
 
         internal static string AppendParametersToUrl(string url, NameValueCollection parameters)
@@ -98,6 +94,7 @@ namespace FluentMvcGrid.Core
             {
                 url += "?";
             }
+
             //url = url + parameters; // does not work with javascript function decodeURIComponent
             foreach (var key in parameters.AllKeys)
             {

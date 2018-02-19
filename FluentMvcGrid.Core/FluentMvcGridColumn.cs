@@ -166,15 +166,18 @@ namespace FluentMvcGrid.Core
             {
                 th.InnerHtml.AppendHtml(Utilities.GetText(_headerText, configuration.GetWhiteSpace()));
             }
+
             var headerClass = Utilities.EvalExpression(_headerClass);
             if (!string.IsNullOrWhiteSpace(headerClass))
             {
                 th.AddCssClass(headerClass);
             }
+
             if (visibility == ColumnVisibility.Hidden)
             {
                 th.Attributes.Add("style", "display: none;");
             }
+
             return th;
         }
 

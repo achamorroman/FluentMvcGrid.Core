@@ -14,7 +14,7 @@ namespace FluentMvcGrid.Core
 {
     internal static class Pagination
     {
-        public static HtmlString GetDefaultPagination(int pageIndex, int totalCount, int pageSize, PaginationSizing paginationSizing, PaginationAligment paginationAligment, int numericLinksCount, bool paginationInfo, object htmlAttributes, BootstrapVersion bootstrapVersion, string onClick, bool href, Uri currentUrl, string[] removedParameters, Dictionary<string, string> addedParameters)
+        public static IHtmlContent GetDefaultPagination(int pageIndex, int totalCount, int pageSize, PaginationSizing paginationSizing, PaginationAligment paginationAligment, int numericLinksCount, bool paginationInfo, object htmlAttributes, BootstrapVersion bootstrapVersion, string onClick, bool href, Uri currentUrl, string[] removedParameters, Dictionary<string, string> addedParameters)
         {
             if (currentUrl == null)
             {
@@ -100,6 +100,7 @@ namespace FluentMvcGrid.Core
                 num1 = Math.Min(num1 + -num2, num);
                 num2 = 0;
             }
+
             for (var i = num2; i <= num1; i++)
             {
                 var j = i + 1;
@@ -134,14 +135,13 @@ namespace FluentMvcGrid.Core
             if (bootstrapVersion == BootstrapVersion.Bootstrap2)
             {
                 div.InnerHtml.AppendHtml(ul);
-                return new HtmlString(div.ToString());
+                return div;
             }
 
-            // TODO REVISAR
-            return new HtmlString(ul.InnerHtml.ToString());
+            return ul;
         }
 
-        public static HtmlString GetPagerPagination(int pageIndex, int totalCount, int pageSize, bool alignedLinks, object htmlAttributes, string onClick, bool href, Uri currentUrl, string[] removedParameters, Dictionary<string, string> addedParameters)
+        public static IHtmlContent GetPagerPagination(int pageIndex, int totalCount, int pageSize, bool alignedLinks, object htmlAttributes, string onClick, bool href, Uri currentUrl, string[] removedParameters, Dictionary<string, string> addedParameters)
         {
             if (currentUrl == null)
             {
@@ -222,7 +222,7 @@ namespace FluentMvcGrid.Core
             }
             ul.InnerHtml.AppendHtml(GetPaginationItem(text, url, liClass, null, onClick, href, page));
 
-            return new HtmlString(ul.ToString());
+            return ul;
         }
 
         private static void RemoveParameters(NameValueCollection collection, string[] parameters)
@@ -257,7 +257,7 @@ namespace FluentMvcGrid.Core
             return (int)Math.Ceiling((double)totalCount / pageSize);
         }
 
-        private static string GetPaginationItem(string text, string url, string liClass, string title, string onClick, bool href, int? page)
+        private static IHtmlContent GetPaginationItem(string text, string url, string liClass, string title, string onClick, bool href, int? page)
         {
             var a = new TagBuilder("a");
             a.InnerHtml.AppendHtml(text);
@@ -294,8 +294,7 @@ namespace FluentMvcGrid.Core
                 li.Attributes.Add("title", title);
             }
 
-            //TODO REVISAR
-            return li.InnerHtml.ToString();
+            return li;
         }
     }
 }

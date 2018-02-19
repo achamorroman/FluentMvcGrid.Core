@@ -8,7 +8,7 @@ namespace FluentMvcGrid.Core
     public class FluentMvcGridFooterColumn
     {
         private readonly List<Tuple<string, Func<dynamic, object>>> _attributes;
-        private String _class;
+        private string _class;
         private int _colSpan;
         private Func<dynamic, object> _format;
         private Func<ColumnVisibility> _visibility;
@@ -50,20 +50,23 @@ namespace FluentMvcGrid.Core
             return this;
         }
 
-        internal IHtmlContent GetContent(Configuration configuration)
+        internal IHtmlContent Build(Configuration configuration)
         {
             var visibility = Utilities.EvalExpression(_visibility);
             if (visibility == ColumnVisibility.None)
             {
                 return null;
             }
+
             var td = new TagBuilder("td");
             if (_colSpan > 1)
             {
                 td.Attributes.Add("colspan", _colSpan.ToString());
             }
+
             var format = Utilities.EvalExpression(_format, null);
             td.InnerHtml.AppendHtml(Utilities.GetText(format, configuration.GetWhiteSpace()));
+
             if (!string.IsNullOrWhiteSpace(_class))
             {
                 td.AddCssClass(_class);
