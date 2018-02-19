@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace FluentMvcGrid.Core
@@ -49,12 +50,12 @@ namespace FluentMvcGrid.Core
             return this;
         }
 
-        internal string Build(Configuration configuration)
+        internal IHtmlContent GetContent(Configuration configuration)
         {
             var visibility = Utilities.EvalExpression(_visibility);
             if (visibility == ColumnVisibility.None)
             {
-                return string.Empty;
+                return null;
             }
             var td = new TagBuilder("td");
             if (_colSpan > 1)
@@ -71,8 +72,8 @@ namespace FluentMvcGrid.Core
             if (visibility == ColumnVisibility.Hidden)
             {
                 td.Attributes.Add("style", "display: none;");
-            }       
-            return td.ToString();
+            }
+            return td;
         }
 
         internal int GetColSpan()

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace FluentMvcGrid.Core
@@ -84,12 +85,12 @@ namespace FluentMvcGrid.Core
             return this;
         }
 
-        internal string BuildContent(T item, Configuration configuration)
+        internal IHtmlContent Build(T item, Configuration configuration)
         {
             var visibility = Utilities.EvalExpression(_visibility);
             if (visibility == ColumnVisibility.None)
             {
-                return string.Empty;
+                return null;
             }
             var format = Utilities.EvalExpression(_format, item);
 
@@ -121,20 +122,20 @@ namespace FluentMvcGrid.Core
             {
                 td.Attributes.Add("style", "display: none;");
             }
-            return td.ToString();
+
+            return td;
         }
 
-        
-
-
-        internal string BuildHeader(Uri url, Configuration configuration)
+        internal IHtmlContent BuildHeader(Uri url, Configuration configuration)
         {
-            var th = new TagBuilder("th");
             var visibility = Utilities.EvalExpression(_visibility);
             if (visibility == ColumnVisibility.None)
             {
-                return string.Empty;
+                return null;
             }
+
+            var th = new TagBuilder("th");
+
             if (_sortable)
             {
                 var a = new TagBuilder("a");
@@ -159,7 +160,7 @@ namespace FluentMvcGrid.Core
                     var onClick = string.Format("javascript:{0}(\"{1}\",\"{2}\",\"{3}\");return false;", _onSort, href, _sortBy, sortDir);
                     a.Attributes.Add("onclick", onClick);
                 }
-                th.InnerHtml.AppendHtml(a.ToString());
+                th.InnerHtml.AppendHtml(a);
             }
             else
             {
@@ -174,7 +175,7 @@ namespace FluentMvcGrid.Core
             {
                 th.Attributes.Add("style", "display: none;");
             }
-            return th.ToString();
+            return th;
         }
 
         internal ColumnVisibility GetVisibility()

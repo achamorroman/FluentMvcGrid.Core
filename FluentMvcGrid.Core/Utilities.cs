@@ -24,6 +24,7 @@ namespace FluentMvcGrid.Core
             {
                 return string.Empty;
             }
+
             var value = expression(item);
             if (IsNullOrWhiteSpace(value))
             {

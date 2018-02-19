@@ -29,6 +29,7 @@ namespace FluentMvcGrid.Core
 
             var div = new TagBuilder("div");
             var ul = new TagBuilder("ul");
+
             TagBuilder parentTag;
 
             if (bootstrapVersion == BootstrapVersion.Bootstrap2)
@@ -73,7 +74,6 @@ namespace FluentMvcGrid.Core
             }
 
             var liClass = pageIndex == 1 ? "disabled" : "";
-
 
             var parameters = Utilities.ParseQueryString(currentUrl.Query);
 
@@ -133,11 +133,12 @@ namespace FluentMvcGrid.Core
 
             if (bootstrapVersion == BootstrapVersion.Bootstrap2)
             {
-                div.InnerHtml.AppendHtml(ul.ToString());
+                div.InnerHtml.AppendHtml(ul);
                 return new HtmlString(div.ToString());
             }
 
-            return new HtmlString(ul.ToString());
+            // TODO REVISAR
+            return new HtmlString(ul.InnerHtml.ToString());
         }
 
         public static HtmlString GetPagerPagination(int pageIndex, int totalCount, int pageSize, bool alignedLinks, object htmlAttributes, string onClick, bool href, Uri currentUrl, string[] removedParameters, Dictionary<string, string> addedParameters)
@@ -287,12 +288,14 @@ namespace FluentMvcGrid.Core
             {
                 li.Attributes.Add("data-page", page.ToString());
             }
-            li.InnerHtml.AppendHtml(a.ToString());
+            li.InnerHtml.AppendHtml(a);
             if (!string.IsNullOrWhiteSpace(title))
             {
                 li.Attributes.Add("title", title);
             }
-            return li.ToString();
+
+            //TODO REVISAR
+            return li.InnerHtml.ToString();
         }
     }
 }
