@@ -9,9 +9,7 @@ namespace FluentMvcGrid.Core
     {
         public static FluentMvcGrid<T> FluentMvcGrid<T>(this IHtmlHelper helper, IEnumerable<T> items, Uri requestUrl)
         {
-            var fluentGrid = new FluentMvcGrid<T>(items, requestUrl);
-            Debug.Print(fluentGrid.ToString());
-            return fluentGrid;
+            return new FluentMvcGrid<T>(items, requestUrl);
         }
     }
 }

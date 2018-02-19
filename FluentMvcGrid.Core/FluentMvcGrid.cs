@@ -394,8 +394,6 @@ namespace FluentMvcGrid.Core
 
         public void WriteTo(TextWriter writer, HtmlEncoder encoder)
         {
-            // TODO. y aqui ¿qué?
-
             Build();
 
             //var content = Build();
@@ -404,7 +402,6 @@ namespace FluentMvcGrid.Core
             //    content.WriteTo(writer, encoder);
             //    var t = writer.ToString();
             //}
-
         }
     }
 }
